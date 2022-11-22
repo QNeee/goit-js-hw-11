@@ -15,7 +15,16 @@ const refs = {
   div: document.querySelector(".gallery"),
   button: document.querySelector(".btn-load-more")
 }
+function plavno() {
+  const { height: cardHeight } = document
+    .querySelector(".gallery")
+    .firstElementChild.getBoundingClientRect();
 
+  window.scrollBy({
+    top: cardHeight * 2,
+    behavior: "smooth",
+  });
+}
 function createGalleryMarkup(data) {
   return data.reduce((acc, { webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => `${acc}<div class="photo-card">
   <a class="gallery__item" href="${largeImageURL}"><img src="${webformatURL}" alt="${tags}" loading="lazy" width="200" height="100" /></a>
@@ -78,6 +87,7 @@ function onLoadMore(e) {
       refs.button.classList.add("is-hidden")
       return Notify.failure("We're sorry, but you've reached the end of search results.")
     }
+    plavno();
   }).catch(onError);
 }
 refs.form.addEventListener("submit", onSubmit);
